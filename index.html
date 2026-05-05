@@ -167,44 +167,81 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 /* CAR IMG LOADING */
 .img-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--t3);letter-spacing:1px}
 
-/* ══ DRIVING MODE ══ */
-#drv-overlay{position:fixed;inset:0;background:#060c18;z-index:300;display:none;flex-direction:column;overflow:hidden}
+/* ══ DRIVING MODE — CarPlay Style ══ */
+#drv-overlay{position:fixed;inset:0;background:#0a1628;z-index:300;display:none;flex-direction:row;overflow:hidden}
 #drv-overlay.on{display:flex}
-.drv-bar{display:flex;align-items:center;justify-content:space-between;padding:calc(52px + var(--sat)) 18px 12px;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,transparent 100%);flex-shrink:0}
-.drv-back{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:20px;padding:6px 14px 6px 10px;font-family:"Nunito",sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;backdrop-filter:blur(10px)}
-.drv-title{font-family:"Rajdhani",sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
-.drv-clock{font-family:"Rajdhani",sans-serif;font-size:20px;font-weight:600;color:var(--t1)}
-/* Map strip */
-#drv-map{height:33%;width:100%;flex-shrink:0;position:relative}
-#drv-map .leaflet-container{background:#0a0f1a}
-/* Mid row: speed + weather */
-.drv-mid{display:grid;grid-template-columns:1fr 1fr;flex-shrink:0;padding:12px 16px;gap:12px;align-items:center}
-/* Speed */
-.drv-speed-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
-.drv-road-wrap{width:70px;height:90px;border-radius:12px;background:linear-gradient(180deg,#111520 0%,#0a0e17 100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px}
-.drv-lane{position:absolute;top:-100%;width:3px;height:200%;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 14px,transparent 14px,transparent 28px);left:50%;margin-left:-1.5px;animation:roadScroll 3s linear infinite}
-.drv-car-svg{font-size:22px;position:relative;z-index:2}
-.drv-disc{width:120px;height:120px;border-radius:50%;border:2px solid rgba(0,180,216,.35);background:radial-gradient(circle,rgba(0,180,216,.08) 0%,rgba(0,0,0,.6) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,180,216,.15),inset 0 0 20px rgba(0,0,0,.5)}
-#drv-spd{font-family:"Rajdhani",sans-serif;font-size:48px;font-weight:700;color:#fff;line-height:1}
-.drv-spd-u{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:-2px}
-@keyframes roadScroll{from{top:-100%}to{top:0%}}
-/* Weather */
-.drv-weather{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px}
-.drv-city{font-size:12px;color:var(--blue);font-weight:600;letter-spacing:.03em}
-.drv-temp-big{font-family:"Rajdhani",sans-serif;font-size:38px;font-weight:700;line-height:1;color:#fff}
-.drv-cond{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
-.drv-wico{font-size:28px;margin-top:4px}
-/* Music */
-.drv-music{flex:1;margin:0 16px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:14px;min-height:0}
-.drv-art{width:56px;height:56px;border-radius:12px;background:rgba(0,180,216,.15);border:1px solid rgba(0,180,216,.25);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;background-size:cover;background-position:center;overflow:hidden}
-.drv-music-info{flex:1;min-width:0}
-#drv-track{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#drv-artist{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.drv-controls{display:flex;gap:10px;align-items:center;flex-shrink:0}
-.drv-ctrl-btn{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:background .15s}
-.drv-ctrl-btn.play{background:var(--blue);width:42px;height:42px;font-size:18px;box-shadow:0 2px 12px rgba(0,180,216,.4)}
-.drv-ctrl-btn:active{opacity:.7}
-.drv-open-music{background:none;border:1px solid rgba(0,180,216,.3);color:var(--blue);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:"Nunito",sans-serif;text-decoration:none;flex-shrink:0}
+
+/* LEFT SIDEBAR */
+.drv-sidebar{width:68px;background:rgba(8,18,36,.9);border-right:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;padding-top:calc(18px + var(--sat));padding-bottom:calc(14px + var(--sab));gap:4px;flex-shrink:0;z-index:2}
+.drv-sb-btn{width:46px;height:46px;border-radius:14px;border:none;background:transparent;color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.drv-sb-btn:active{background:rgba(255,255,255,.1);transform:scale(.92)}
+.drv-sb-btn.active{background:rgba(0,140,255,.25);color:#4db8ff}
+.drv-sb-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.drv-sb-spacer{flex:1}
+.drv-sb-back{width:46px;height:46px;border-radius:14px;border:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.drv-sb-back:active{opacity:.7}
+.drv-sb-back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* MAIN CONTENT */
+.drv-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOP BAR */
+.drv-topbar{display:flex;align-items:center;justify-content:space-between;padding:calc(14px + var(--sat)) 14px 10px;flex-shrink:0}
+.drv-clock{font-family:"Rajdhani",sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.05em}
+.drv-topbar-title{font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.3);text-transform:uppercase;font-weight:600}
+.drv-signal{display:flex;gap:3px;align-items:flex-end}
+.drv-signal span{width:3px;background:rgba(0,180,216,.7);border-radius:2px}
+.drv-signal span:nth-child(1){height:6px}
+.drv-signal span:nth-child(2){height:10px}
+.drv-signal span:nth-child(3){height:14px}
+
+/* CENTER BODY: 3-column grid */
+.drv-body{flex:1;display:grid;grid-template-columns:1fr 160px 1fr;gap:10px;padding:0 12px 12px;min-height:0}
+
+/* LEFT PANEL: Music */
+.drv-left-panel{display:flex;flex-direction:column;gap:10px;min-height:0}
+.drv-music-card{background:rgba(12,24,48,.85);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0}
+.drv-art-big{width:100%;aspect-ratio:1;background:linear-gradient(135deg,#0d2040,#162a50);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;background-size:cover;background-position:center;max-height:130px;overflow:hidden}
+.drv-art-big img{width:100%;height:100%;object-fit:cover;display:none}
+.drv-music-body{padding:12px 14px;flex:1;display:flex;flex-direction:column;justify-content:space-between;min-height:0}
+.drv-music-meta{min-width:0}
+#drv-track{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;line-height:1.3}
+#drv-artist{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drv-controls{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:10px}
+.drv-ctrl-btn{background:rgba(255,255,255,.12);border:none;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;flex-shrink:0}
+.drv-ctrl-btn.play{background:rgba(255,255,255,.22);width:48px;height:48px;font-size:20px;box-shadow:0 2px 16px rgba(0,0,0,.4)}
+.drv-ctrl-btn:active{transform:scale(.88);opacity:.8}
+.drv-radio-btn{background:rgba(0,120,220,.18);border:1px solid rgba(0,140,255,.25);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;color:#fff;text-decoration:none;flex-shrink:0}
+.drv-radio-ico{font-size:20px}
+.drv-radio-lbl{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#fff}
+
+/* CENTER PANEL: Road + Speed */
+.drv-center-panel{display:flex;flex-direction:column;align-items:center;gap:10px}
+.drv-speed-disc{width:140px;height:140px;border-radius:50%;border:2px solid rgba(255,255,255,.15);background:radial-gradient(circle at 40% 35%,rgba(30,50,90,.9),rgba(8,16,32,.95));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(0,100,200,.2),inset 0 1px 0 rgba(255,255,255,.08);flex-shrink:0}
+#drv-spd{font-family:"Rajdhani",sans-serif;font-size:58px;font-weight:700;color:#fff;line-height:1;letter-spacing:-1px}
+.drv-spd-u{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:-3px}
+.drv-road-wrap{flex:1;width:100%;border-radius:18px;background:linear-gradient(180deg,#0d1a30 0%,#0a1220 100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.05);min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
+/* Perspective road */
+.drv-road-bg{position:absolute;inset:0;overflow:hidden}
+.drv-asphalt{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:100%;background:#111822;clip-path:polygon(20% 0%,80% 0%,100% 100%,0% 100%)}
+.drv-lane{position:absolute;left:50%;top:0;width:3px;height:400%;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.75) 0,rgba(255,255,255,.75) 18px,transparent 18px,transparent 36px);margin-left:-1.5px;animation:roadScroll 1.8s linear infinite;transform-origin:bottom center}
+/* Jeep Compass top-down SVG */
+.drv-car-wrap{position:relative;z-index:2;filter:drop-shadow(0 4px 12px rgba(0,0,0,.8))}
+@keyframes roadScroll{from{transform:translateY(-50%)}to{transform:translateY(0%)}}
+
+/* RIGHT PANEL: Map + Weather */
+.drv-right-panel{display:flex;flex-direction:column;gap:10px;min-height:0}
+.drv-map-card{border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);flex:1;min-height:0;position:relative}
+#drv-map{width:100%;height:100%;min-height:120px}
+#drv-map .leaflet-container{background:#0f1a2e}
+.drv-map-badge{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border-radius:8px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:4px;pointer-events:none;z-index:10}
+.drv-weather-card{background:rgba(12,24,48,.88);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:12px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.drv-weather-left{flex:1;min-width:0}
+.drv-city{font-size:11px;color:#4db8ff;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.drv-city svg{width:10px;height:10px;fill:#4db8ff}
+.drv-temp-big{font-family:"Rajdhani",sans-serif;font-size:36px;font-weight:700;line-height:1;color:#fff}
+.drv-cond{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px}
+.drv-wico{font-size:34px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -421,49 +458,199 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 
 <!-- ══ DRIVING MODE OVERLAY ══ -->
 <div id="drv-overlay">
-  <div class="drv-bar">
-    <button class="drv-back" onclick="closeDriveMode()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-      Salir
+
+  <!-- LEFT SIDEBAR -->
+  <div class="drv-sidebar">
+    <!-- Apps grid -->
+    <button class="drv-sb-btn active">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     </button>
-    <div class="drv-title">Conducción</div>
-    <div class="drv-clock" id="drv-clock">00:00</div>
+    <!-- Music -->
+    <button class="drv-sb-btn" onclick="window.location.href='music://'">
+      <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </button>
+    <!-- Messages -->
+    <button class="drv-sb-btn" onclick="window.location.href='sms://'">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </button>
+    <!-- Phone -->
+    <button class="drv-sb-btn" onclick="window.location.href='tel://'">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </button>
+    <!-- Maps -->
+    <button class="drv-sb-btn" onclick="window.location.href='maps://'">
+      <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    </button>
+    <div class="drv-sb-spacer"></div>
+    <!-- Back / Exit -->
+    <button class="drv-sb-back" onclick="closeDriveMode()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
   </div>
-  <!-- MAP -->
-  <div id="drv-map"></div>
-  <!-- SPEED + WEATHER -->
-  <div class="drv-mid">
-    <div class="drv-speed-wrap">
-      <div class="drv-road-wrap">
-        <div class="drv-lane" id="drv-lane"></div>
-        <div class="drv-car-svg">🚙</div>
+
+  <!-- MAIN CONTENT -->
+  <div class="drv-main">
+
+    <!-- TOP BAR -->
+    <div class="drv-topbar">
+      <div class="drv-clock" id="drv-clock">00:00</div>
+      <div class="drv-topbar-title">MODO CONDUCCIÓN</div>
+      <div class="drv-signal">
+        <span></span><span></span><span></span>
       </div>
-      <div class="drv-disc">
-        <div id="drv-spd">0</div>
-        <div class="drv-spd-u">Km/h</div>
+    </div>
+
+    <!-- 3-COLUMN BODY -->
+    <div class="drv-body">
+
+      <!-- LEFT: MUSIC -->
+      <div class="drv-left-panel">
+        <div class="drv-music-card">
+          <div class="drv-art-big" id="drv-art-el">
+            <img id="drv-art-img" src="" alt="">
+            <span id="drv-art-ico">🎵</span>
+          </div>
+          <div class="drv-music-body">
+            <div class="drv-music-meta">
+              <div id="drv-track">Sin reproducción</div>
+              <div id="drv-artist">Abre Apple Music</div>
+            </div>
+            <div class="drv-controls">
+              <button class="drv-ctrl-btn" onclick="drvMedia('previoustrack')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+              <button class="drv-ctrl-btn play" id="drv-play-btn" onclick="drvTogglePlay()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <button class="drv-ctrl-btn" onclick="drvMedia('nexttrack')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Radio button -->
+        <a href="music://" class="drv-radio-btn">
+          <span class="drv-radio-ico">📻</span>
+          <span class="drv-radio-lbl">Radio</span>
+        </a>
       </div>
-    </div>
-    <div class="drv-weather">
-      <div class="drv-city" id="drv-city">📍 Localizando...</div>
-      <div class="drv-temp-big" id="drv-temp">—°</div>
-      <div class="drv-cond" id="drv-cond">Cargando clima</div>
-      <div class="drv-wico" id="drv-wico">🌤️</div>
-    </div>
-  </div>
-  <!-- MUSIC -->
-  <div class="drv-music">
-    <div class="drv-art" id="drv-art-el">🎵</div>
-    <div class="drv-music-info">
-      <div id="drv-track">Sin reproducción detectada</div>
-      <div id="drv-artist">Abre Apple Music</div>
-    </div>
-    <div class="drv-controls">
-      <button class="drv-ctrl-btn" onclick="drvMedia('previoustrack')">⏮</button>
-      <button class="drv-ctrl-btn play" id="drv-play-btn" onclick="drvTogglePlay()">▶</button>
-      <button class="drv-ctrl-btn" onclick="drvMedia('nexttrack')">⏭</button>
-    </div>
-    <a href="music://" class="drv-open-music">♪ Música</a>
-  </div>
+
+      <!-- CENTER: ROAD + SPEED -->
+      <div class="drv-center-panel">
+        <div class="drv-speed-disc">
+          <div id="drv-spd">0</div>
+          <div class="drv-spd-u">Km/h</div>
+        </div>
+        <div class="drv-road-wrap">
+          <div class="drv-road-bg">
+            <div class="drv-asphalt"></div>
+            <div class="drv-lane" id="drv-lane"></div>
+          </div>
+          <!-- Jeep Compass top-down SVG -->
+          <div class="drv-car-wrap">
+            <svg width="54" height="88" viewBox="0 0 54 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Body shadow -->
+              <ellipse cx="27" cy="80" rx="20" ry="5" fill="rgba(0,0,0,0.5)"/>
+              <!-- Main body -->
+              <rect x="7" y="14" width="40" height="60" rx="8" fill="#1a1a22"/>
+              <!-- Body highlight top -->
+              <rect x="10" y="15" width="34" height="8" rx="4" fill="#2a2a35" opacity=".8"/>
+              <!-- Roof -->
+              <rect x="11" y="22" width="32" height="40" rx="5" fill="#111118"/>
+              <!-- Roof glass reflection -->
+              <rect x="14" y="25" width="12" height="14" rx="3" fill="#1a2840" opacity=".9"/>
+              <rect x="28" y="25" width="12" height="14" rx="3" fill="#1a2840" opacity=".9"/>
+              <!-- Windshield -->
+              <rect x="10" y="14" width="34" height="12" rx="5" fill="#1e3050" opacity=".95"/>
+              <rect x="13" y="16" width="28" height="7" rx="3" fill="#243858" opacity=".8"/>
+              <!-- Rear window -->
+              <rect x="12" y="62" width="30" height="9" rx="4" fill="#1e3050" opacity=".9"/>
+              <!-- Hood vents / grille lines -->
+              <rect x="16" y="7" width="22" height="9" rx="3" fill="#222230"/>
+              <line x1="18" y1="9" x2="18" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="21" y1="9" x2="21" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="24" y1="9" x2="24" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="27" y1="9" x2="27" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="30" y1="9" x2="30" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="33" y1="9" x2="33" y2="15" stroke="#333342" stroke-width="1"/>
+              <line x1="36" y1="9" x2="36" y2="15" stroke="#333342" stroke-width="1"/>
+              <!-- Headlights -->
+              <rect x="8" y="8" width="10" height="7" rx="2.5" fill="#dde8ff" opacity=".95"/>
+              <rect x="36" y="8" width="10" height="7" rx="2.5" fill="#dde8ff" opacity=".95"/>
+              <!-- DRL strip -->
+              <rect x="8" y="8" width="10" height="2.5" rx="1" fill="white" opacity=".7"/>
+              <rect x="36" y="8" width="10" height="2.5" rx="1" fill="white" opacity=".7"/>
+              <!-- Tail lights -->
+              <rect x="8" y="72" width="10" height="8" rx="2.5" fill="#cc1a10" opacity=".95"/>
+              <rect x="36" y="72" width="10" height="8" rx="2.5" fill="#cc1a10" opacity=".95"/>
+              <!-- Brake light strip -->
+              <rect x="10" y="72" width="34" height="2.5" rx="1" fill="#dd2010" opacity=".6"/>
+              <!-- Side mirrors -->
+              <rect x="1" y="20" width="7" height="12" rx="2" fill="#1a1a22"/>
+              <rect x="46" y="20" width="7" height="12" rx="2" fill="#1a1a22"/>
+              <!-- Roof rack -->
+              <rect x="12" y="28" width="30" height="2" rx="1" fill="#2a2a35" opacity=".7"/>
+              <rect x="12" y="34" width="30" height="2" rx="1" fill="#2a2a35" opacity=".7"/>
+              <!-- Body crease highlight -->
+              <line x1="7" y1="44" x2="47" y2="44" stroke="#2e2e3c" stroke-width="1.5" opacity=".7"/>
+              <!-- Door handles -->
+              <rect x="8" y="40" width="6" height="2.5" rx="1" fill="#2d2d3a"/>
+              <rect x="40" y="40" width="6" height="2.5" rx="1" fill="#2d2d3a"/>
+              <!-- Wheels front -->
+              <ellipse cx="8" cy="22" rx="6" ry="7" fill="#111118"/>
+              <ellipse cx="8" cy="22" rx="4" ry="5.5" fill="#222230"/>
+              <ellipse cx="8" cy="22" rx="2" ry="2.5" fill="#3a3a4a"/>
+              <ellipse cx="46" cy="22" rx="6" ry="7" fill="#111118"/>
+              <ellipse cx="46" cy="22" rx="4" ry="5.5" fill="#222230"/>
+              <ellipse cx="46" cy="22" rx="2" ry="2.5" fill="#3a3a4a"/>
+              <!-- Wheels rear -->
+              <ellipse cx="8" cy="66" rx="6" ry="7" fill="#111118"/>
+              <ellipse cx="8" cy="66" rx="4" ry="5.5" fill="#222230"/>
+              <ellipse cx="8" cy="66" rx="2" ry="2.5" fill="#3a3a4a"/>
+              <ellipse cx="46" cy="66" rx="6" ry="7" fill="#111118"/>
+              <ellipse cx="46" cy="66" rx="4" ry="5.5" fill="#222230"/>
+              <ellipse cx="46" cy="66" rx="2" ry="2.5" fill="#3a3a4a"/>
+              <!-- Rim spokes front-left -->
+              <line x1="8" y1="17" x2="8" y2="21" stroke="#555568" stroke-width="1.2"/>
+              <line x1="4" y1="20" x2="7" y2="22" stroke="#555568" stroke-width="1.2"/>
+              <line x1="4.5" y1="24.5" x2="7" y2="23" stroke="#555568" stroke-width="1.2"/>
+              <line x1="8" y1="27" x2="8" y2="23" stroke="#555568" stroke-width="1.2"/>
+              <line x1="11.5" y1="24.5" x2="9" y2="23" stroke="#555568" stroke-width="1.2"/>
+              <!-- Rim spokes rear-left (same pattern offset) -->
+              <line x1="8" y1="61" x2="8" y2="65" stroke="#555568" stroke-width="1.2"/>
+              <line x1="4" y1="64" x2="7" y2="66" stroke="#555568" stroke-width="1.2"/>
+              <line x1="4.5" y1="68.5" x2="7" y2="67" stroke="#555568" stroke-width="1.2"/>
+              <line x1="8" y1="71" x2="8" y2="67" stroke="#555568" stroke-width="1.2"/>
+              <line x1="11.5" y1="68.5" x2="9" y2="67" stroke="#555568" stroke-width="1.2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: MAP + WEATHER -->
+      <div class="drv-right-panel">
+        <div class="drv-map-card">
+          <div id="drv-map"></div>
+          <div class="drv-map-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Mapas
+          </div>
+        </div>
+        <div class="drv-weather-card">
+          <div class="drv-weather-left">
+            <div class="drv-city">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              <span id="drv-city">Localizando...</span>
+            </div>
+            <div class="drv-temp-big" id="drv-temp">—°</div>
+            <div class="drv-cond" id="drv-cond">Cargando clima</div>
+          </div>
+          <div class="drv-wico" id="drv-wico">🌤️</div>
+        </div>
+      </div>
+
+    </div><!-- end drv-body -->
+  </div><!-- end drv-main -->
 </div>
 </div><!-- end app -->
 
@@ -635,22 +822,25 @@ function readDrvMedia(){
   try{
     var ms=navigator.mediaSession;
     if(!ms)return;
-    // State
     var state=ms.playbackState;
     var btn=document.getElementById('drv-play-btn');
-    if(state==='playing')btn.textContent='⏸';
-    else btn.textContent='▶';
-    // Metadata
+    if(state==='playing'){
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    } else {
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+    }
     if(ms.metadata){
       var m=ms.metadata;
       if(m.title) document.getElementById('drv-track').textContent=m.title;
       if(m.artist) document.getElementById('drv-artist').textContent=m.artist;
       if(m.artwork&&m.artwork.length){
-        var art=document.getElementById('drv-art-el');
-        art.style.backgroundImage='url('+m.artwork[m.artwork.length-1].src+')';
-        art.style.backgroundSize='cover';
-        art.style.backgroundPosition='center';
-        art.textContent='';
+        var imgEl=document.getElementById('drv-art-img');
+        var icoEl=document.getElementById('drv-art-ico');
+        if(imgEl){
+          imgEl.src=m.artwork[m.artwork.length-1].src;
+          imgEl.style.display='block';
+          if(icoEl) icoEl.style.display='none';
+        }
       }
     }
   }catch(e){}
@@ -1100,22 +1290,25 @@ function readDrvMedia(){
   try{
     var ms=navigator.mediaSession;
     if(!ms)return;
-    // State
     var state=ms.playbackState;
     var btn=document.getElementById('drv-play-btn');
-    if(state==='playing')btn.textContent='⏸';
-    else btn.textContent='▶';
-    // Metadata
+    if(state==='playing'){
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    } else {
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+    }
     if(ms.metadata){
       var m=ms.metadata;
       if(m.title) document.getElementById('drv-track').textContent=m.title;
       if(m.artist) document.getElementById('drv-artist').textContent=m.artist;
       if(m.artwork&&m.artwork.length){
-        var art=document.getElementById('drv-art-el');
-        art.style.backgroundImage='url('+m.artwork[m.artwork.length-1].src+')';
-        art.style.backgroundSize='cover';
-        art.style.backgroundPosition='center';
-        art.textContent='';
+        var imgEl=document.getElementById('drv-art-img');
+        var icoEl=document.getElementById('drv-art-ico');
+        if(imgEl){
+          imgEl.src=m.artwork[m.artwork.length-1].src;
+          imgEl.style.display='block';
+          if(icoEl) icoEl.style.display='none';
+        }
       }
     }
   }catch(e){}
