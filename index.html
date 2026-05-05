@@ -558,7 +558,8 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
   </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
 // ══ DRIVING MODE ══
 var _gpsW=null,_drvMap=null,_drvMark=null,_clockIv=null,_mediaIv=null,_weatherTs=0;
 function openDriveMode(){
@@ -1135,6 +1136,7 @@ function drvMedia(action){
     if(key){var e=new KeyboardEvent('keydown',{key:key,bubbles:true});document.dispatchEvent(e);}
   }catch(e){}
 }
+</script>
 <!-- PWA INSTALL BANNER (Android Chrome) -->
 <div id="pwa-banner">
   <div class="pb-ico">🚗</div>
