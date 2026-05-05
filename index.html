@@ -243,10 +243,11 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 .drv-cond{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px}
 .drv-wico{font-size:34px;flex-shrink:0}
 
-/* ══ LANDSCAPE ROTATION: gira el modo conducción en pantalla portrait ══ */
+/* ══ LANDSCAPE ROTATION: sólo cuando el overlay está activo (.on) ══ */
 @media screen and (orientation: portrait) {
-  #drv-overlay {
-    inset: auto !important;
+  #drv-overlay.on {
+    position: fixed;
+    inset: unset;
     width: 100dvh;
     height: 100dvw;
     left: calc((100dvw - 100dvh) / 2);
@@ -255,6 +256,7 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
     bottom: auto;
     transform: rotate(90deg);
     transform-origin: center center;
+    overflow: hidden;
   }
 }
 
