@@ -224,7 +224,7 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 /* Perspective road */
 .drv-road-bg{position:absolute;inset:0;overflow:hidden}
 .drv-asphalt{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:100%;background:#111822;clip-path:polygon(20% 0%,80% 0%,100% 100%,0% 100%)}
-.drv-lane{position:absolute;left:50%;top:0;width:3px;height:400%;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.75) 0,rgba(255,255,255,.75) 18px,transparent 18px,transparent 36px);margin-left:-1.5px;animation:roadScroll 1.8s linear infinite;transform-origin:bottom center}
+.drv-lane{position:absolute;left:50%;top:0;width:3px;height:400%;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.75) 0,rgba(255,255,255,.75) 18px,transparent 18px,transparent 36px);margin-left:-1.5px;animation:roadScroll 1.8s linear infinite;animation-play-state:paused;transform-origin:bottom center}
 /* Jeep Compass top-down SVG */
 .drv-car-wrap{position:relative;z-index:2;filter:drop-shadow(0 4px 12px rgba(0,0,0,.8))}
 @keyframes roadScroll{from{transform:translateY(-50%)}to{transform:translateY(0%)}}
@@ -257,6 +257,18 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
     transform: rotate(90deg);
     transform-origin: center center;
     overflow: hidden;
+    /* Compensar notch (top físico = RIGHT visual) y home-bar (bottom físico = LEFT visual) */
+    /* En coordenadas pre-rotación: top CSS → visual RIGHT; bottom CSS → visual LEFT */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* Anular el padding duplicado de sidebar y topbar que ya tienen --sat/--sab */
+  #drv-overlay.on .drv-sidebar {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+  #drv-overlay.on .drv-topbar {
+    padding-top: 14px;
   }
 }
 
@@ -275,6 +287,9 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 .drv-ctrl-btn:active{transform:scale(.85);opacity:.8}
 .drv-radio-btn{background:rgba(0,100,200,.15);border:1px solid rgba(0,140,255,.2);border-radius:14px;padding:9px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;color:#fff;text-decoration:none;flex-shrink:0;transition:background .2s}
 .drv-radio-btn:active{background:rgba(0,100,200,.3)}
+/* Apple Music button */
+.drv-apple-music-btn{background:rgba(255,45,85,.15);border:1px solid rgba(255,45,85,.35);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;color:#fff;flex-shrink:0;width:100%;font-family:"Nunito",sans-serif;font-size:13px;font-weight:700;letter-spacing:.02em;transition:background .2s}
+.drv-apple-music-btn:active{background:rgba(255,45,85,.3)}
 /* Ticker animation for long track names */
 @keyframes ticker{0%{transform:translateX(0)}40%{transform:translateX(var(--tx,0))}60%{transform:translateX(var(--tx,0))}100%{transform:translateX(0)}}
 .drv-ticker{display:block;animation:ticker 6s ease-in-out infinite}
@@ -548,8 +563,8 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
           </div>
           <div class="drv-music-body">
             <div class="drv-music-meta">
-              <div id="drv-track" class="drv-ticker">Sin reproducción</div>
-              <div id="drv-artist">Toca ▶ para escuchar</div>
+              <div id="drv-track" class="drv-ticker">Radio integrada</div>
+              <div id="drv-artist">Toca ► para escuchar</div>
             </div>
             <div class="drv-progress-bar"><div class="drv-progress-fill" id="drv-prog"></div></div>
             <div class="drv-controls">
@@ -565,10 +580,10 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
             </div>
           </div>
         </div>
-        <!-- Radio button -->
-        <button class="drv-radio-btn" onclick="drvOpenRadio()">
-          <span class="drv-radio-ico">📻</span>
-          <span class="drv-radio-lbl">Radio</span>
+        <!-- Apple Music button -->
+        <button class="drv-apple-music-btn" onclick="window.location.href='music://'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Abrir Apple Music</span>
         </button>
       </div>
 
@@ -871,6 +886,17 @@ function openDriveMode(){
   try{ screen.orientation.lock('landscape-primary').catch(function(){}); }catch(e){}
   updateDrvClock();
   _clockIv=setInterval(updateDrvClock,1000);
+  // Obtener clima inmediatamente al abrir (no esperar al GPS watch)
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(pos){
+      fetchDrvWeather(pos.coords.latitude,pos.coords.longitude);
+      _weatherTs=Date.now();
+    },function(){
+      fetchDrvWeatherByIP();
+    },{timeout:8000,maximumAge:30000});
+  } else {
+    fetchDrvWeatherByIP();
+  }
   startDrvGPS();
   initDrvMap();
   _initAudio();
@@ -882,6 +908,74 @@ function closeDriveMode(){
   clearInterval(_clockIv); clearInterval(_progIv);
   var au=_getAudio(); if(au){au.pause();} _drvPlaying=false; _updatePlayBtn();
   try{ screen.orientation.unlock(); }catch(e){}
+}
+function updateDrvClock(){
+  var n=new Date();
+  document.getElementById('drv-clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+}
+function initDrvMap(){
+  if(_drvMap)return;
+  setTimeout(function(){
+    try{
+      _drvMap=L.map('drv-map',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false});
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(_drvMap);
+    }catch(e){}
+  },100);
+}
+function startDrvGPS(){
+  if(!navigator.geolocation)return;
+  _gpsW=navigator.geolocation.watchPosition(function(pos){
+    var spd=pos.coords.speed;
+    var kmh=spd!=null?Math.max(0,Math.round(spd*3.6)):0;
+    document.getElementById('drv-spd').textContent=kmh;
+    // Animar carretera SÓLO cuando hay movimiento
+    var lane=document.getElementById('drv-lane');
+    if(kmh>2){
+      lane.style.animationPlayState='running';
+      lane.style.animationDuration=Math.max(0.25,2.5-kmh/50)+'s';
+    } else {
+      lane.style.animationPlayState='paused';
+    }
+    if(_drvMap){
+      var ll=[pos.coords.latitude,pos.coords.longitude];
+      if(_drvMark)_drvMark.remove();
+      _drvMark=L.circleMarker(ll,{radius:9,fillColor:'#00b4d8',fillOpacity:1,color:'#fff',weight:2}).addTo(_drvMap);
+      _drvMap.setView(ll,17);
+    }
+    if(Date.now()-_weatherTs>300000){
+      _weatherTs=Date.now();
+      fetchDrvWeather(pos.coords.latitude,pos.coords.longitude);
+    }
+  },null,{enableHighAccuracy:true,maximumAge:1000});
+}
+async function fetchDrvWeather(lat,lon){
+  try{
+    var wCodes={0:'Despejado',1:'Casi despejado',2:'Parcialmente nublado',3:'Nublado',45:'Neblina',48:'Neblina',51:'Llovizna',53:'Llovizna',55:'Llovizna',61:'Lluvia',63:'Lluvia',65:'Lluvia',71:'Nieve',80:'Chubascos',81:'Chubascos',95:'Tormenta'};
+    var wIco={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',80:'🌧️',95:'⛈️'};
+    var [wr,gr]=await Promise.all([
+      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current_weather=true&timezone=auto'),
+      fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json&accept-language=es')
+    ]);
+    var wd=await wr.json(); var gd=await gr.json();
+    var cw=wd.current_weather; var code=cw.weathercode;
+    var city=gd.address?.city||gd.address?.town||gd.address?.suburb||gd.address?.county||'—';
+    document.getElementById('drv-city').textContent='📍 '+city;
+    document.getElementById('drv-temp').textContent=Math.round(cw.temperature)+'°';
+    document.getElementById('drv-cond').textContent=wCodes[code]||wCodes[Math.floor(code/10)*10]||'Despejado';
+    document.getElementById('drv-wico').textContent=wIco[code]||wIco[Math.floor(code/10)*10]||'🌤️';
+  }catch(e){}
+}
+async function fetchDrvWeatherByIP(){
+  // Fallback: obtener clima por geolocalización de IP
+  try{
+    var r=await fetch('https://ipapi.co/json/');
+    var d=await r.json();
+    if(d.latitude&&d.longitude){
+      document.getElementById('drv-city').textContent='📍 '+( d.city||'—');
+      fetchDrvWeather(d.latitude,d.longitude);
+      _weatherTs=Date.now();
+    }
+  }catch(e){}
 }
 
 </script>
