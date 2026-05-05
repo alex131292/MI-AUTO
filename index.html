@@ -242,6 +242,40 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 .drv-temp-big{font-family:"Rajdhani",sans-serif;font-size:36px;font-weight:700;line-height:1;color:#fff}
 .drv-cond{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px}
 .drv-wico{font-size:34px;flex-shrink:0}
+
+/* ══ LANDSCAPE ROTATION: gira el modo conducción en pantalla portrait ══ */
+@media screen and (orientation: portrait) {
+  #drv-overlay {
+    inset: auto !important;
+    width: 100dvh;
+    height: 100dvw;
+    left: calc((100dvw - 100dvh) / 2);
+    top: calc((100dvh - 100dvw) / 2);
+    right: auto;
+    bottom: auto;
+    transform: rotate(90deg);
+    transform-origin: center center;
+  }
+}
+
+/* ══ MEJORAS VISUALES REPRODUCTOR ══ */
+.drv-music-card{background:rgba(8,18,40,.9);border:1px solid rgba(255,255,255,.10);border-radius:20px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+.drv-art-big{width:100%;flex:1;background:linear-gradient(135deg,#0d2040,#162a50);display:flex;align-items:center;justify-content:center;font-size:42px;background-size:cover;background-position:center;overflow:hidden;position:relative;min-height:0}
+.drv-art-big img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.drv-art-big::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(8,18,40,.95),transparent);pointer-events:none}
+.drv-music-body{padding:10px 14px 12px;flex-shrink:0;background:rgba(8,18,40,.92)}
+#drv-track{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;line-height:1.3;letter-spacing:.01em}
+#drv-artist{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em}
+.drv-progress-bar{height:2px;background:rgba(255,255,255,.12);border-radius:2px;margin:10px 0 8px;overflow:hidden}
+.drv-progress-fill{height:100%;background:linear-gradient(90deg,#4db8ff,#00b4d8);border-radius:2px;width:0%;transition:width .5s linear}
+.drv-ctrl-btn{background:rgba(255,255,255,.10);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;flex-shrink:0}
+.drv-ctrl-btn.play{background:rgba(0,140,255,.35);border:1px solid rgba(0,180,216,.5);width:46px;height:46px;font-size:20px;box-shadow:0 2px 20px rgba(0,150,230,.4)}
+.drv-ctrl-btn:active{transform:scale(.85);opacity:.8}
+.drv-radio-btn{background:rgba(0,100,200,.15);border:1px solid rgba(0,140,255,.2);border-radius:14px;padding:9px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;color:#fff;text-decoration:none;flex-shrink:0;transition:background .2s}
+.drv-radio-btn:active{background:rgba(0,100,200,.3)}
+/* Ticker animation for long track names */
+@keyframes ticker{0%{transform:translateX(0)}40%{transform:translateX(var(--tx,0))}60%{transform:translateX(var(--tx,0))}100%{transform:translateX(0)}}
+.drv-ticker{display:block;animation:ticker 6s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -512,27 +546,28 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
           </div>
           <div class="drv-music-body">
             <div class="drv-music-meta">
-              <div id="drv-track">Sin reproducción</div>
-              <div id="drv-artist">Abre Apple Music</div>
+              <div id="drv-track" class="drv-ticker">Sin reproducción</div>
+              <div id="drv-artist">Toca ▶ para escuchar</div>
             </div>
+            <div class="drv-progress-bar"><div class="drv-progress-fill" id="drv-prog"></div></div>
             <div class="drv-controls">
-              <button class="drv-ctrl-btn" onclick="drvMedia('previoustrack')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+              <button class="drv-ctrl-btn" onclick="drvPrev()" title="Anterior">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
               </button>
               <button class="drv-ctrl-btn play" id="drv-play-btn" onclick="drvTogglePlay()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               </button>
-              <button class="drv-ctrl-btn" onclick="drvMedia('nexttrack')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+              <button class="drv-ctrl-btn" onclick="drvNext()" title="Siguiente">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
               </button>
             </div>
           </div>
         </div>
         <!-- Radio button -->
-        <a href="music://" class="drv-radio-btn">
+        <button class="drv-radio-btn" onclick="drvOpenRadio()">
           <span class="drv-radio-ico">📻</span>
           <span class="drv-radio-lbl">Radio</span>
-        </a>
+        </button>
       </div>
 
       <!-- CENTER: ROAD + SPEED -->
@@ -651,8 +686,9 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 
     </div><!-- end drv-body -->
   </div><!-- end drv-main -->
+  <!-- Audio element del reproductor interno -->
+  <audio id="drv-audio" preload="none" crossorigin="anonymous" playsinline></audio>
 </div>
-</div><!-- end app -->
 
 <!-- FAB -->
 <button id="fab" onclick="onFab()">+</button>
@@ -748,119 +784,104 @@ nav{height:var(--nav);background:rgba(9,9,15,.95);backdrop-filter:blur(24px);bor
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ══ DRIVING MODE ══
-var _gpsW=null,_drvMap=null,_drvMark=null,_clockIv=null,_mediaIv=null,_weatherTs=0;
+var _gpsW=null,_drvMap=null,_drvMark=null,_clockIv=null,_progIv=null,_weatherTs=0;
+
+// ── PLAYLIST interna (estaciones de radio) ──
+var DRV_PLAYLIST = [
+  { title:'Groove Salad',  artist:'SomaFM · Ambient',    art:'🎶', src:'https://ice1.somafm.com/groovesalad-128-mp3' },
+  { title:'Cliq Hop',      artist:'SomaFM · Hip-Hop',    art:'🎧', src:'https://ice1.somafm.com/cliqhop-128-mp3'    },
+  { title:'Folk Forward',  artist:'SomaFM · Folk',       art:'🎸', src:'https://ice1.somafm.com/folkfwd-128-mp3'    },
+  { title:'Space Station', artist:'SomaFM · Electronic', art:'🚀', src:'https://ice1.somafm.com/spacestation-128-mp3'},
+  { title:'Drone Zone',    artist:'SomaFM · Chill',      art:'🌌', src:'https://ice1.somafm.com/dronezone-128-mp3'  },
+];
+var _pIdx = 0;
+var _drvAudio = null;
+var _drvPlaying = false;
+
+function _getAudio(){ if(!_drvAudio) _drvAudio=document.getElementById('drv-audio'); return _drvAudio; }
+
+function _loadTrack(idx, autoplay){
+  _pIdx = ((idx % DRV_PLAYLIST.length) + DRV_PLAYLIST.length) % DRV_PLAYLIST.length;
+  var t = DRV_PLAYLIST[_pIdx];
+  var au = _getAudio();
+  document.getElementById('drv-track').textContent  = t.title;
+  document.getElementById('drv-artist').textContent = t.artist;
+  var ico = document.getElementById('drv-art-ico');
+  var img = document.getElementById('drv-art-img');
+  if(ico){ ico.textContent=t.art; ico.style.display='block'; }
+  if(img){ img.style.display='none'; }
+  document.getElementById('drv-prog').style.width='0%';
+  var artEl = document.getElementById('drv-art-el');
+  var hue = _pIdx * 52;
+  if(artEl) artEl.style.background='linear-gradient(135deg, hsl('+hue+',60%,12%), hsl('+(hue+40)+',70%,18%))';
+  if('mediaSession' in navigator){
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title:t.title, artist:t.artist, album:'Mi Auto · Radio',
+      artwork:[{src:'icons/icon-192.png',sizes:'192x192',type:'image/png'}]
+    });
+  }
+  if(au){ au.src=t.src; if(autoplay||_drvPlaying){ au.play().catch(function(){_drvPlaying=false;_updatePlayBtn();}); } }
+}
+
+function _updatePlayBtn(){
+  var au=_getAudio(); var playing=au&&!au.paused;
+  var btn=document.getElementById('drv-play-btn');
+  if(btn){ btn.innerHTML=playing
+    ?'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>'
+    :'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>'; }
+  if('mediaSession' in navigator) navigator.mediaSession.playbackState=playing?'playing':'paused';
+}
+
+function drvTogglePlay(){
+  var au=_getAudio(); if(!au) return;
+  if(!au.src||au.src===window.location.href){ _drvPlaying=true; _loadTrack(_pIdx,true); return; }
+  if(au.paused){ _drvPlaying=true; au.play().catch(function(){_drvPlaying=false;_updatePlayBtn();}); }
+  else { _drvPlaying=false; au.pause(); }
+  _updatePlayBtn();
+}
+function drvNext(){ _drvPlaying=true; _loadTrack(_pIdx+1,true); _updatePlayBtn(); }
+function drvPrev(){ _drvPlaying=true; _loadTrack(_pIdx-1,true); _updatePlayBtn(); }
+function drvOpenRadio(){ window.location.href='music://'; }
+
+function _initAudio(){
+  var au=_getAudio(); if(!au||au._drvInit) return; au._drvInit=true;
+  au.addEventListener('play',   function(){_drvPlaying=true; _updatePlayBtn();});
+  au.addEventListener('pause',  function(){_drvPlaying=false;_updatePlayBtn();});
+  au.addEventListener('ended',  function(){drvNext();});
+  au.addEventListener('error',  function(){setTimeout(function(){drvNext();},1200);});
+  au.addEventListener('timeupdate',function(){
+    var p=document.getElementById('drv-prog');
+    if(au.duration&&isFinite(au.duration)){ p.style.width=(au.currentTime/au.duration*100)+'%'; }
+    else if(p&&!p._live){ p._live=true;p.style.transition='none';p.style.width='100%';p.style.opacity='.35'; }
+  });
+  if('mediaSession' in navigator){
+    navigator.mediaSession.setActionHandler('play',         function(){drvTogglePlay();});
+    navigator.mediaSession.setActionHandler('pause',        function(){drvTogglePlay();});
+    navigator.mediaSession.setActionHandler('nexttrack',    function(){drvNext();});
+    navigator.mediaSession.setActionHandler('previoustrack',function(){drvPrev();});
+  }
+  _loadTrack(0,false);
+}
+
 function openDriveMode(){
   document.getElementById('drv-overlay').classList.add('on');
   document.getElementById('fab').style.display='none';
+  try{ screen.orientation.lock('landscape-primary').catch(function(){}); }catch(e){}
   updateDrvClock();
   _clockIv=setInterval(updateDrvClock,1000);
   startDrvGPS();
   initDrvMap();
-  readDrvMedia();
-  _mediaIv=setInterval(readDrvMedia,2000);
+  _initAudio();
 }
 function closeDriveMode(){
   document.getElementById('drv-overlay').classList.remove('on');
   document.getElementById('fab').style.display='flex';
   if(_gpsW){navigator.geolocation.clearWatch(_gpsW);_gpsW=null;}
-  clearInterval(_clockIv);clearInterval(_mediaIv);
+  clearInterval(_clockIv); clearInterval(_progIv);
+  var au=_getAudio(); if(au){au.pause();} _drvPlaying=false; _updatePlayBtn();
+  try{ screen.orientation.unlock(); }catch(e){}
 }
-function updateDrvClock(){
-  var n=new Date();
-  document.getElementById('drv-clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
-}
-function initDrvMap(){
-  if(_drvMap)return;
-  setTimeout(function(){
-    try{
-      _drvMap=L.map('drv-map',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false});
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(_drvMap);
-    }catch(e){}
-  },100);
-}
-function startDrvGPS(){
-  if(!navigator.geolocation)return;
-  _gpsW=navigator.geolocation.watchPosition(function(pos){
-    var spd=pos.coords.speed;
-    var kmh=spd!=null?Math.max(0,Math.round(spd*3.6)):0;
-    document.getElementById('drv-spd').textContent=kmh;
-    // Road animation speed
-    var dur=kmh>5?Math.max(0.15,2.5-kmh/50):9999;
-    document.getElementById('drv-lane').style.animationDuration=dur+'s';
-    // Map
-    if(_drvMap){
-      var ll=[pos.coords.latitude,pos.coords.longitude];
-      if(_drvMark)_drvMark.remove();
-      _drvMark=L.circleMarker(ll,{radius:9,fillColor:'#00b4d8',fillOpacity:1,color:'#fff',weight:2}).addTo(_drvMap);
-      _drvMap.setView(ll,17);
-    }
-    // Weather (every 5 min)
-    if(Date.now()-_weatherTs>300000){
-      _weatherTs=Date.now();
-      fetchDrvWeather(pos.coords.latitude,pos.coords.longitude);
-    }
-  },null,{enableHighAccuracy:true,maximumAge:1000});
-}
-async function fetchDrvWeather(lat,lon){
-  try{
-    var wCodes={0:'Despejado',1:'Casi despejado',2:'Parcialmente nublado',3:'Nublado',45:'Neblina',48:'Neblina',51:'Llovizna',53:'Llovizna',55:'Llovizna',61:'Lluvia',63:'Lluvia',65:'Lluvia',71:'Nieve',80:'Chubascos',81:'Chubascos',95:'Tormenta'};
-    var wIco={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',80:'🌧️',95:'⛈️'};
-    var [wr,gr]=await Promise.all([
-      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current_weather=true&timezone=auto'),
-      fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json&accept-language=es')
-    ]);
-    var wd=await wr.json(); var gd=await gr.json();
-    var cw=wd.current_weather; var code=cw.weathercode;
-    var city=gd.address?.city||gd.address?.town||gd.address?.suburb||gd.address?.county||'—';
-    document.getElementById('drv-city').textContent='📍 '+city;
-    document.getElementById('drv-temp').textContent=Math.round(cw.temperature)+'°';
-    document.getElementById('drv-cond').textContent=wCodes[code]||wCodes[Math.floor(code/10)*10]||'Despejado';
-    document.getElementById('drv-wico').textContent=wIco[code]||wIco[Math.floor(code/10)*10]||'🌤️';
-  }catch(e){}
-}
-function readDrvMedia(){
-  try{
-    var ms=navigator.mediaSession;
-    if(!ms)return;
-    var state=ms.playbackState;
-    var btn=document.getElementById('drv-play-btn');
-    if(state==='playing'){
-      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-    } else {
-      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
-    }
-    if(ms.metadata){
-      var m=ms.metadata;
-      if(m.title) document.getElementById('drv-track').textContent=m.title;
-      if(m.artist) document.getElementById('drv-artist').textContent=m.artist;
-      if(m.artwork&&m.artwork.length){
-        var imgEl=document.getElementById('drv-art-img');
-        var icoEl=document.getElementById('drv-art-ico');
-        if(imgEl){
-          imgEl.src=m.artwork[m.artwork.length-1].src;
-          imgEl.style.display='block';
-          if(icoEl) icoEl.style.display='none';
-        }
-      }
-    }
-  }catch(e){}
-}
-function drvTogglePlay(){
-  try{
-    var ms=navigator.mediaSession;
-    if(!ms)throw new Error();
-    var h=ms.playbackState==='playing'?ms.setActionHandler:'play';
-    // Try to call registered handlers
-    var ev=new Event('mediaplay');document.dispatchEvent(ev);
-  }catch(e){window.location.href='music://';}
-}
-function drvMedia(action){
-  try{
-    // Dispatch media keys via keyboard events (limited browser support)
-    var key={'previoustrack':'MediaTrackPrevious','nexttrack':'MediaTrackNext'}[action];
-    if(key){var e=new KeyboardEvent('keydown',{key:key,bubbles:true});document.dispatchEvent(e);}
-  }catch(e){}
-}
+
 </script>
 <script>
 // ── STATE ──
@@ -1217,118 +1238,7 @@ if(DB.specs) renderSpecs();
 
 // ══ DRIVING MODE ══
 var _gpsW=null,_drvMap=null,_drvMark=null,_clockIv=null,_mediaIv=null,_weatherTs=0;
-function openDriveMode(){
-  document.getElementById('drv-overlay').classList.add('on');
-  document.getElementById('fab').style.display='none';
-  updateDrvClock();
-  _clockIv=setInterval(updateDrvClock,1000);
-  startDrvGPS();
-  initDrvMap();
-  readDrvMedia();
-  _mediaIv=setInterval(readDrvMedia,2000);
-}
-function closeDriveMode(){
-  document.getElementById('drv-overlay').classList.remove('on');
-  document.getElementById('fab').style.display='flex';
-  if(_gpsW){navigator.geolocation.clearWatch(_gpsW);_gpsW=null;}
-  clearInterval(_clockIv);clearInterval(_mediaIv);
-}
-function updateDrvClock(){
-  var n=new Date();
-  document.getElementById('drv-clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
-}
-function initDrvMap(){
-  if(_drvMap)return;
-  setTimeout(function(){
-    try{
-      _drvMap=L.map('drv-map',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false});
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(_drvMap);
-    }catch(e){}
-  },100);
-}
-function startDrvGPS(){
-  if(!navigator.geolocation)return;
-  _gpsW=navigator.geolocation.watchPosition(function(pos){
-    var spd=pos.coords.speed;
-    var kmh=spd!=null?Math.max(0,Math.round(spd*3.6)):0;
-    document.getElementById('drv-spd').textContent=kmh;
-    // Road animation speed
-    var dur=kmh>5?Math.max(0.15,2.5-kmh/50):9999;
-    document.getElementById('drv-lane').style.animationDuration=dur+'s';
-    // Map
-    if(_drvMap){
-      var ll=[pos.coords.latitude,pos.coords.longitude];
-      if(_drvMark)_drvMark.remove();
-      _drvMark=L.circleMarker(ll,{radius:9,fillColor:'#00b4d8',fillOpacity:1,color:'#fff',weight:2}).addTo(_drvMap);
-      _drvMap.setView(ll,17);
-    }
-    // Weather (every 5 min)
-    if(Date.now()-_weatherTs>300000){
-      _weatherTs=Date.now();
-      fetchDrvWeather(pos.coords.latitude,pos.coords.longitude);
-    }
-  },null,{enableHighAccuracy:true,maximumAge:1000});
-}
-async function fetchDrvWeather(lat,lon){
-  try{
-    var wCodes={0:'Despejado',1:'Casi despejado',2:'Parcialmente nublado',3:'Nublado',45:'Neblina',48:'Neblina',51:'Llovizna',53:'Llovizna',55:'Llovizna',61:'Lluvia',63:'Lluvia',65:'Lluvia',71:'Nieve',80:'Chubascos',81:'Chubascos',95:'Tormenta'};
-    var wIco={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',80:'🌧️',95:'⛈️'};
-    var [wr,gr]=await Promise.all([
-      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current_weather=true&timezone=auto'),
-      fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json&accept-language=es')
-    ]);
-    var wd=await wr.json(); var gd=await gr.json();
-    var cw=wd.current_weather; var code=cw.weathercode;
-    var city=gd.address?.city||gd.address?.town||gd.address?.suburb||gd.address?.county||'—';
-    document.getElementById('drv-city').textContent='📍 '+city;
-    document.getElementById('drv-temp').textContent=Math.round(cw.temperature)+'°';
-    document.getElementById('drv-cond').textContent=wCodes[code]||wCodes[Math.floor(code/10)*10]||'Despejado';
-    document.getElementById('drv-wico').textContent=wIco[code]||wIco[Math.floor(code/10)*10]||'🌤️';
-  }catch(e){}
-}
-function readDrvMedia(){
-  try{
-    var ms=navigator.mediaSession;
-    if(!ms)return;
-    var state=ms.playbackState;
-    var btn=document.getElementById('drv-play-btn');
-    if(state==='playing'){
-      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-    } else {
-      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
-    }
-    if(ms.metadata){
-      var m=ms.metadata;
-      if(m.title) document.getElementById('drv-track').textContent=m.title;
-      if(m.artist) document.getElementById('drv-artist').textContent=m.artist;
-      if(m.artwork&&m.artwork.length){
-        var imgEl=document.getElementById('drv-art-img');
-        var icoEl=document.getElementById('drv-art-ico');
-        if(imgEl){
-          imgEl.src=m.artwork[m.artwork.length-1].src;
-          imgEl.style.display='block';
-          if(icoEl) icoEl.style.display='none';
-        }
-      }
-    }
-  }catch(e){}
-}
-function drvTogglePlay(){
-  try{
-    var ms=navigator.mediaSession;
-    if(!ms)throw new Error();
-    var h=ms.playbackState==='playing'?ms.setActionHandler:'play';
-    // Try to call registered handlers
-    var ev=new Event('mediaplay');document.dispatchEvent(ev);
-  }catch(e){window.location.href='music://';}
-}
-function drvMedia(action){
-  try{
-    // Dispatch media keys via keyboard events (limited browser support)
-    var key={'previoustrack':'MediaTrackPrevious','nexttrack':'MediaTrackNext'}[action];
-    if(key){var e=new KeyboardEvent('keydown',{key:key,bubbles:true});document.dispatchEvent(e);}
-  }catch(e){}
-}
+
 </script>
 <!-- PWA INSTALL BANNER (Android Chrome) -->
 <div id="pwa-banner">
