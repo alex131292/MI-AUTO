@@ -1,0 +1,44 @@
+{
+  "name": "Mi Auto",
+  "short_name": "Mi Auto",
+  "description": "Gestión inteligente de tu vehículo personal",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#09090f",
+  "theme_color": "#09090f",
+  "lang": "es",
+  "categories": ["utilities", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Registrar Combustible",
+      "short_name": "Combustible",
+      "description": "Agrega una carga de combustible",
+      "url": "/index.html?action=fuel",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Modo Conducción",
+      "short_name": "Conducir",
+      "description": "Abre el velocímetro GPS",
+      "url": "/index.html?action=drive",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
