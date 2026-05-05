@@ -1,10 +1,10 @@
 // Mi Auto PWA - Service Worker
 const CACHE_NAME = 'miauto-v1';
 const OFFLINE_URLS = [
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/MI-AUTO/index.html',
+  '/MI-AUTO/manifest.json',
+  '/MI-AUTO/icons/icon-192.png',
+  '/MI-AUTO/icons/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
